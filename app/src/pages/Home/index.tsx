@@ -7,24 +7,16 @@ import {
     SelectValue,
   } from "@/components/ui/select"
 import { Button } from "@/components/ui/button";
-import axios from "axios";
-
-import { z } from "zod";
-import { toast } from "@/components/ui/use-toast";
+import { Badge } from "@/components/ui/badge";
 import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
 
-const FormSchema = z.object({
-    muscle: z.string(),
-    difficulty: z.string(),
-    typeOfWorkout: z.string(), 
-})
+import { sdk } from "@/api/sdk";
 
 const muscleArray = [
     'abdominals',
@@ -68,15 +60,33 @@ const typeOfWorkout = [
 type TypeOfWorkout = typeof typeOfWorkout[number];
 
 export const Homepage = () => {
-    const [selectedMuscle, setSelectedMuscle] = useState<Muscle>('abdominals');
-    const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>('beginner');
-    const [selectedTypeOfWorkout, setSelectedTypeOfWorkout] = useState<TypeOfWorkout>('cardio');
+    const [selectedMuscle, setSelectedMuscle] = useState<Muscle | undefined>(undefined);
+    const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | undefined>(undefined);
+    const [selectedTypeOfWorkout, setSelectedTypeOfWorkout] = useState<TypeOfWorkout | undefined>(undefined);
     const [listOfWorkouts, setListOfWorkouts] = useState([]);
-
     const isDesktop = window.innerWidth > 1024;
-  
+
+    const fetchWorkout = async () => {
+        try {
+            const response = await sdk({
+                method: 'GET',
+                url: '/exo',
+                params: {
+                    muscle: selectedMuscle,
+                    difficulty: selectedDifficulty,
+                    type: selectedTypeOfWorkout
+                }
+            });
+            console.log('RESPONSE : ', response.data);
+            setListOfWorkouts(response.data.data);
+        } catch(err) {
+            console.error(err);
+        }
+    };
+    
+    return(
         <div>
-            {/* {isDesktop && (
+            {isDesktop && (
                 <>
                     <p>Choose a muscle that you want to workout</p>
                     {muscleArray.map((muscle) => (
@@ -109,7 +119,7 @@ export const Homepage = () => {
                     ))}
 
                 </>
-            )} */}
+            )}
             {!isDesktop && (
                 <>
                 <div>
@@ -169,9 +179,6 @@ export const Homepage = () => {
                 </div>
                 </>
             )}
-           <p>Selected muscle {selectedMuscle}</p>
-            <p>Selected difficulty {selectedDifficulty}</p>
-            <p>Selected type of workout {selectedTypeOfWorkout}</p>
 
             {listOfWorkouts.map((workout: any) => (
                 <Card className="w-[350px]">
@@ -188,7 +195,6 @@ export const Homepage = () => {
             >
                 Get workout
             </Button>
-            
         </div>
     );
 };
