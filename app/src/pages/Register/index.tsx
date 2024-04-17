@@ -1,5 +1,5 @@
+import React, { useState } from "react"
 import { Link } from "react-router-dom"
-
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -10,8 +10,28 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { authRegister } from "@/api/auth"
 
 export function RegisterPage() {
+  const [firstname, setFirstname] = useState<string>("");
+  const [lastname, setLastname] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const submit = async () => {
+    try {
+      // Call your API here
+      const response = await authRegister({
+        email,
+        firstName: firstname,
+        lastName: lastname,
+        password,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="h-screen flex items-center justify-center">
       <Card className="mx-auto max-w-sm">
@@ -26,11 +46,23 @@ export function RegisterPage() {
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="first-name">First name</Label>
-                <Input id="first-name" placeholder="Max" required />
+                <Input
+                  id="first-name"
+                  placeholder="Max"
+                  required
+                  onChange={(e) => setFirstname(e.target.value)}
+                  value={firstname}
+                />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="last-name">Last name</Label>
-                <Input id="last-name" placeholder="Robinson" required />
+                <Input
+                  id="last-name"
+                  placeholder="Robinson"
+                  required
+                  onChange={(e) => setLastname(e.target.value)}
+                  value={lastname}
+                />
               </div>
             </div>
             <div className="grid gap-2">
@@ -40,17 +72,25 @@ export function RegisterPage() {
                 type="email"
                 placeholder="m@example.com"
                 required
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
               />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" />
+              <Input
+                id="password"
+                type="password"
+                placeholder="********"
+                required
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+              />
             </div>
-            <Button type="submit" className="w-full">
+            <Button onClick={() => {
+              submit()
+            }} type="submit" className="w-full">
               Create an account
-            </Button>
-            <Button variant="outline" className="w-full">
-              Sign up with GitHub
             </Button>
           </div>
           <div className="mt-4 text-center text-sm">

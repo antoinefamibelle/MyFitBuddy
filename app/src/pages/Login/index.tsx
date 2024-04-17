@@ -1,3 +1,4 @@
+import React, { useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -9,8 +10,24 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { authLogin } from "@/api/auth";
 
 export function LoginPage() {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const submit = async () => {
+    try {
+      // Call your API here
+      const response = await authLogin({
+        email,
+        password,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="h-screen flex items-center justify-center">
         <Card className="w-full max-w-sm">
@@ -23,15 +40,28 @@ export function LoginPage() {
         <CardContent className="grid gap-4">
             <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="m@example.com" required />
+            <Input
+              id="email"
+              type="email"
+              placeholder="m@example.com"
+              required
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+            />
             </div>
             <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" required />
+            <Input
+              id="password"
+              type="password"
+              required
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+            />
             </div>
         </CardContent>
         <CardFooter>
-            <Button className="w-full">Sign in</Button>
+            <Button onClick={() => submit()} className="w-full">Sign in</Button>
         </CardFooter>
         </Card>
     </div>
