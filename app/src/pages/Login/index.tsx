@@ -1,5 +1,7 @@
-import React, { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
+import { ResponseRo, UserAuthRo } from "@/lib/types"
+import { useNavigate } from "react-router-dom"
 import {
   Card,
   CardContent,
@@ -11,18 +13,29 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { authLogin } from "@/api/auth";
+import { AuthContext } from "@/context"
 
 export function LoginPage() {
+  const { user, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, []);
 
   const submit = async () => {
     try {
       // Call your API here
-      const response = await authLogin({
+      const response: ResponseRo<UserAuthRo[]> = await authLogin({
         email,
         password,
       });
+      setUser(response.data[0]);
+      navigate('/')
     } catch (error) {
       console.error(error);
     }
