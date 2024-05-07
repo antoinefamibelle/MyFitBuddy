@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { HomeIcon, User, Dumbbell, UtensilsCrossed } from "lucide-react";
 import { useTheme } from "@/context/theme";
 import { isDark } from "@/lib/utils";
@@ -7,6 +7,7 @@ import { NavbarIcon } from "./style";
 
 export const Layout = () => {
   const isDesktop = window.innerWidth > 1024;
+  const location = useLocation();
   const { theme } = useTheme();
 
   return (
@@ -35,14 +36,48 @@ export const Layout = () => {
         <Outlet />
       </div>
       {!isDesktop && (
-        <div className="fixed h-12 left-0 bottom-0 w-screen">
-          <div className="w-full flex flex-row justify-around align-center">
-            <NavbarIcon theme={theme}>
-              <HomeIcon color={isDark(theme) ? 'white' : 'black'} size={32} />
-            </NavbarIcon>
-            <Dumbbell color={isDark(theme) ? 'white' : 'black'} size={32} />
-            <UtensilsCrossed color={isDark(theme) ? 'white' : 'black'} size={32} />
-            <User color={isDark(theme) ? 'white' : 'black'} size={32} />
+        <div className="fixed h-12 left-0 bottom-0 w-screen items-center justify-center">
+          <div className="flex w-full px-8 flex-row content-center justify-around">
+              <NavbarIcon theme={theme} isSelected={location.pathname === '/'}>
+                <Link to="/">
+                <HomeIcon
+                  color={
+                    location.pathname === '/' ? (isDark(theme) ? 'black' : 'white') : (isDark(theme) ? 'white' : 'black')
+                  }
+                  size={24}
+                />
+                </Link>
+              </NavbarIcon>
+              <NavbarIcon theme={theme} isSelected={location.pathname === '/about'}>
+                <Link to="/about">
+                  <Dumbbell
+                    color={
+                      location.pathname === '/about' ? (isDark(theme) ? 'black' : 'white') : (isDark(theme) ? 'white' : 'black')
+                    }
+                    size={24}
+                  />
+                </Link>
+              </NavbarIcon>
+              <NavbarIcon theme={theme} isSelected={location.pathname === '/contact'}>
+                <Link to="/contact">
+                  <UtensilsCrossed
+                    color={
+                      location.pathname === '/contact' ? (isDark(theme) ? 'black' : 'white') : (isDark(theme) ? 'white' : 'black')
+                    }
+                    size={24}
+                  />
+                </Link>
+              </NavbarIcon>
+              <NavbarIcon theme={theme} isSelected={location.pathname === '/profile'}>
+                <Link to="/profile">
+                  <User
+                    color={
+                      location.pathname === '/profile' ? (isDark(theme) ? 'black' : 'white') : (isDark(theme) ? 'white' : 'black')
+                    }
+                    size={24}
+                  />
+                </Link>
+              </NavbarIcon>
           </div>
         </div>  
       )}
