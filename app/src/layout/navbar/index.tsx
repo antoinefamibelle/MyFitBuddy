@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { SearchIcon, HomeIcon, User, Dumbbell } from "lucide-react";
+import { HomeIcon, User, Dumbbell, UtensilsCrossed } from "lucide-react";
 import { useTheme } from "@/context/theme";
 import { isDark } from "@/lib/utils";
 export const Layout = () => {
@@ -36,9 +36,9 @@ export const Layout = () => {
           <div className="fixed h-12 left-0 bottom-0 w-screen">
             <div className="w-full flex flex-row justify-around align-center">
               <HomeIcon color={isDark(theme) ? 'white' : 'black'} size={32} />
-              <SearchIcon color={isDark(theme) ? 'white' : 'black'} size={32} />
-              <User color={isDark(theme) ? 'white' : 'black'} size={32} />
               <Dumbbell color={isDark(theme) ? 'white' : 'black'} size={32} />
+              <UtensilsCrossed color={isDark(theme) ? 'white' : 'black'} size={32} />
+              <User color={isDark(theme) ? 'white' : 'black'} size={32} />
             </div>
           </div>  
         )}
