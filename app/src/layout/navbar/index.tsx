@@ -1,8 +1,12 @@
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { SearchIcon } from "lucide-react";
+import { SearchIcon, HomeIcon, User, Dumbbell } from "lucide-react";
+import { useTheme } from "@/context/theme";
+import { isDark } from "@/lib/utils";
 export const Layout = () => {
   const isDesktop = window.innerWidth > 1024;
+  const { theme } = useTheme();
+  console.log('THEM : ', theme)
     return (
       <div className="container">
         {/* A "layout route" is a good place to put markup you want to
@@ -29,11 +33,12 @@ export const Layout = () => {
           <Outlet />
         </div>
         {!isDesktop && (
-          <div className="fixed h-12 left-0 bottom-0 w-screen shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]">
+          <div className="fixed h-12 left-0 bottom-0 w-screen">
             <div className="w-full flex flex-row justify-around align-center">
-              <Link to="/about">About</Link>
-              <SearchIcon size={32} />
-              <Link to="/">Home</Link>
+              <HomeIcon color={isDark(theme) ? 'white' : 'black'} size={32} />
+              <SearchIcon color={isDark(theme) ? 'white' : 'black'} size={32} />
+              <User color={isDark(theme) ? 'white' : 'black'} size={32} />
+              <Dumbbell color={isDark(theme) ? 'white' : 'black'} size={32} />
             </div>
           </div>  
         )}
