@@ -1,6 +1,7 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import { Layout } from '@/layout';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { AuthContext, LoadingContext } from "@/context";
 import {
   Homepage,
@@ -21,6 +22,7 @@ function App() {
     <>
       <ThemeProvider>
         <LoadingContext.Provider value={{ loading, setLoading }}>
+        <ReactQueryDevtools initialIsOpen={false} />
           {loading && (
             <div className='h-full w-full bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-70 border border-gray-100'>
               <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24" /> 
