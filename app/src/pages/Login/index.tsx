@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { authLogin } from "@/api/auth";
 import { AuthContext } from "@/context"
+import { toast } from "react-toastify";
 
 export function LoginPage() {
   const { user, setUser } = useContext(AuthContext);
@@ -37,6 +38,7 @@ export function LoginPage() {
       setUser(response.data[0]);
       navigate('/')
     } catch (error) {
+      toast('Invalid email or password', { type: 'error' })
       console.error(error);
     }
   };
