@@ -15,9 +15,14 @@ import { Label } from "@/components/ui/label"
 import { authLogin } from "@/api/auth";
 import { AuthContext } from "@/context"
 import { toast } from "react-toastify";
+import { useSportyStore } from "@/store"
 
 export function LoginPage() {
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser } = useSportyStore(state => ({
+    user: state.user,
+    setUser: state.setUser
+  }));
+  
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
