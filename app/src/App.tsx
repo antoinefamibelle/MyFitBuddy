@@ -12,7 +12,9 @@ import {
 import { useState } from 'react';
 import { UserAuthRo } from './lib/types';
 import { ThemeProvider } from './context/theme';
-
+import { WorkoutPage } from './pages/Workout';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -22,7 +24,7 @@ function App() {
     <>
       <ThemeProvider>
         <LoadingContext.Provider value={{ loading, setLoading }}>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
           {loading && (
             <div className='h-full w-full bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-70 border border-gray-100'>
               <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24" /> 
@@ -34,11 +36,12 @@ function App() {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/" element={<Layout />}>
                   <Route index element={<Homepage />} />
+                  <Route path="/workout" element={<WorkoutPage />} />
                   <Route path="*" element={<Page404 />} />
                 </Route>
               </Routes>
             </AuthContext.Provider>
-        
+          <ToastContainer />
         </LoadingContext.Provider>
       </ThemeProvider>
     </>
