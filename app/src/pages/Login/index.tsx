@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ResponseRo, UserAuthRo } from "@/lib/types"
 import { useNavigate } from "react-router-dom"
@@ -13,7 +13,6 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { authLogin } from "@/api/auth";
-import { AuthContext } from "@/context"
 import { toast } from "react-toastify";
 import { useSportyStore } from "@/store"
 

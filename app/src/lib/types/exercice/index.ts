@@ -1,12 +1,11 @@
 export type ExerciceRo = {
     id: string;
-    type: string;
-    name: string;
-    equipment: string;
-    instructions: string;
-    difficulty: string;
-    muscleGroup: string;
-    createdAt: Date;
-    updatedAt: Date;
+    bodyPart: string | null;
+    name: string | null;
+    image: string | null;
+    target: string | null;
+    secondaryMuscle: string[];
+    instructions: string[];
+    userId?: string | null;
+    workoutId?: string | null;
 }
-  
