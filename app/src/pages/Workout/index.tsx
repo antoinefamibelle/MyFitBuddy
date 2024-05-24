@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { useSportyStore } from "@/store";
 import { fetchExercises } from "@/api";
 import { ExerciceRo } from "@/lib/types";
+import { ExerciceCard } from "@/components/custom";
 const background = `https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`;
 
 const Difficulty = [
@@ -30,12 +31,13 @@ export function WorkoutPage() {
 
   const getExercice = async () => {
     try {
-      console.log('USER : ', user);
       const response = await fetchExercises(user.token);
-      if (response) {
-        console.log('response : ', response.data);  
+      console.log('RESPONSE : ', response);
+
+      if (response && response.status_code === 200) {
+        console.log('EXO : ', response.data);
+        setExoList(response.data);
       }
-      console.log('RESPONSE : ', response.data);
     } catch(err) {
       console.error(err);
     }
@@ -47,8 +49,8 @@ export function WorkoutPage() {
 
   if (modalOpen) {
     return (
-      <div className="h-screen w-screen fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-gray-500 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-50 border border-gray-100 text-card-foreground shadow-sm h-screen w-screen p-4 rounded-xl">
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="container bg-gray-500 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-50 border border-gray-100 text-card-foreground shadow-sm h-screen w-screen p-4 rounded-xl">
           <div className="grid grid-cols-3">
             <div> </div>
             <div>
@@ -105,11 +107,21 @@ export function WorkoutPage() {
                         {item}
                       </SelectItem>
                     ))}
-                    
                   </SelectGroup>
                 </SelectContent>
               </Select>
             </div>
+            <p>{exoList.length}</p>
+            {exoList.length > 0 && (
+              <div className='mt-4'>
+                <span className="text-white text-lg font-bold">Exercices</span>
+                <div className='grid gap-2'>
+                  {exoList.map((exo) => (
+                    <ExerciceCard exo={exo} key={exo.id} onClick={() => setSelectedExo([...selectedExo, exo._id])} />
+                  ))}
+                </div>
+              </div>
+            )}
 
           </div>
           

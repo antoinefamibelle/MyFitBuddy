@@ -15,10 +15,14 @@ import { ThemeProvider } from './context/theme';
 import { WorkoutPage } from './pages/Workout';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { useSportyStore } from './store';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(false);
-  const [user, setUser] = useState<UserAuthRo | null>(null);
+  const { user, setUser } = useSportyStore(state => ({
+    user: state.user,
+    setUser: state.setUser
+  }));
 
   return (
     <>

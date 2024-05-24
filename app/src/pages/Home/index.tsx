@@ -19,9 +19,7 @@ export const Homepage = () => {
 
     const getCurrentUserStats = async () => {
         try {
-            console.log('USER : ', user.token)
             const response = await fetchCurrentUserStats(user?.token as string);
-            console.log('RESPONSE : ', response.data);
         } catch(err) {
             console.error(err);
         }
